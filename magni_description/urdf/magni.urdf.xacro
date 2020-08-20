@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro" name="magni">
 
+  <xacro:arg name="laser_enabled" default="true" />
+  <xacro:property name="laser_enabled" value="$(arg laser_enabled)"/>
+  <xacro:property name="laser_xyz" default="0.2206 0.0 0.00635" />
+  <xacro:property name="laser_rpy" default="0.0 0.0 0.0)" />
+
   <xacro:arg name="raspicam_mount" default="forward"/>
   <xacro:property name="raspicam_mount" value="$(arg raspicam_mount)"/>
 
@@ -19,6 +24,7 @@
   <xacro:include filename="$(find magni_description)/urdf/inertial.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/sonar_hc-sr04.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/raspi_camera.xacro" />
+  <xacro:include filename="$(find hector_sensors_description)/urdf/hokuyo_utm30lx.urdf.xacro"/>
 
 
   <!-- Robot base_link -->
@@ -154,6 +160,12 @@
     <xacro:sonar_hc-sr04 name="sonar_4" connected_to="base_link">
       <origin xyz="0.01 0.14 0.15" rpy="0 0 ${pi/2}"/>
     </xacro:sonar_hc-sr04>
+  </xacro:if>
+
+  <xacro:if value="${laser_enabled}">
+    <xacro:hokuyo_utm30lx name="hokuyo_laser" parent="base_link" ros_topic="scan" update_rate="10" ray_count="361" min_angle="-180" max_angle="180">
+      <origin xyz="0 0 +0.25" rpy="0 0 0" />
+    </xacro:hokuyo_utm30lx>
   </xacro:if>
 
 

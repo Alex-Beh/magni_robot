@@ -1,0 +1,66 @@
+<launch>
+    <arg name="simulation" default="true"/>
+    <arg name="visualization" default="true"/> <!-- start Rviz with predefined configuration? -->
+    <arg name="mapping" default="false"/> <!-- start Rviz with predefined configuration? -->
+    <arg name="navigation" default="false"/> <!-- start Rviz with predefined configuration? -->
+
+    <arg name="raspicam_mount" default="forward"/>
+    <arg name="sonars_installed" default="false"/>
+    <arg name="laser_enabled" default="true"/>
+
+    <!-- load empty world -->
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false" />
+    <arg name="debug" default="false" />
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch" if="$(arg simulation)">
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="world_name" value="$(find husky_gazebo)/worlds/clearpath_playpen.world"/>
+        <arg name="headless" value="$(arg headless)" />
+        <arg name="paused" value="$(arg paused)" />
+        <arg name="debug" value="$(arg debug)" />
+        <arg name="use_sim_time" value="true" />
+    </include>
+
+    <!-- start robot -->
+    <include file="$(find magni_gazebo)/launch/magni.launch">
+        <arg name="raspicam_mount" value="$(arg raspicam_mount)"/>
+        <arg name="sonars_installed" value="$(arg sonars_installed)"/>
+        <arg name="laser_enabled" value="$(arg laser_enabled)" />
+    </include>
+
+    <!-- Additional nodes (optional)  -->
+    <!-- <include file="$(find urg_node)/launch/urg_lidar.launch"/> -->
+    <!-- <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop">
+        <remap from="cmd_vel" to="ubiquity_velocity_controller/cmd_vel"/>
+    </node> -->
+
+    <!-- mapping -->
+    <group if="$(arg mapping)">
+        <node pkg="gmapping" type="slam_gmapping" name="gmapping">
+            <remap from="scan" to="scan"/>
+        </node>
+
+        <include file="$(find magni_viz)/launch/view_mapping.launch"/>
+    </group>
+    
+    <!-- <include file="$(find magni_viz)/launch/view_mapping.launch"/> -->
+
+    <!-- navigation -->
+    <group if="$(arg navigation)">
+        <include file="$(find magni_nav)/launch/move_base.launch"/>
+        <include file="$(find magni_viz)/launch/view_nav.launch"/>
+    </group>
+
+    <!-- GUI for robot control via 'cmd_vel' topic -->
+    <!-- <node pkg="rqt_robot_steering" type="rqt_robot_steering" name="magni_rqt_teleop">
+        <param name="default_topic" type="str" value="/ubiquity_velocity_controller/cmd_vel"/>
+        <param name="default_vx_max" type="double" value="0.8" />
+        <param name="default_vx_min" type="double" value="-0.8" />
+        <param name="default_vw_max" type="double" value="1.5" />
+        <param name="default_vw_min" type="double" value="-1.5" />
+    </node> -->
+
+</launch>

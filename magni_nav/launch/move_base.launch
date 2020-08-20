@@ -1,13 +1,26 @@
 <launch>
+  <arg name="cmd_vel_topic" default="ubiquity_velocity_controller/cmd_vel" />
+  <arg name="odom_topic" default="ubiquity_velocity_controller/odom" />
 
+  <!-- Run the map server --> 
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find magni_nav)/maps/mymap.yaml"/>
 
-<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <rosparam file="$(find magni_nav)/param/costmap_common_param.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find magni_nav)/param/costmap_common_param.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find magni_nav)/param/local_costmap_param.yaml" command="load" />
-    <rosparam file="$(find magni_nav)/param/global_costmap_param.yaml" command="load" />
-    <rosparam file="$(find magni_nav)/param/base_local_planner_param.yaml" command="load" />
+  <!--- Run AMCL --> 
+  <include file="$(find magni_nav)/launch/amcl.launch" />
 
+  <!-- <node pkg="fake_localization" type="fake_localization" name="fake_localization" output="screen" /> -->
+
+  <!-- For fake localization we need static transform between /odom and /map -->
+  <!-- <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 /map /odom 100" /> -->
+  
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+      <rosparam file="$(find magni_nav)/param/costmap_common_param.yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find magni_nav)/param/costmap_common_param.yaml" command="load" ns="global_costmap" />
+      <rosparam file="$(find magni_nav)/param/local_costmap_param.yaml" command="load" />
+      <rosparam file="$(find magni_nav)/param/global_costmap_param.yaml" command="load" />
+      <rosparam file="$(find magni_nav)/param/base_local_planner_param.yaml" command="load" />
+      <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
+      <remap from="odom" to="$(arg odom_topic)"/> 
   </node>
 
 
