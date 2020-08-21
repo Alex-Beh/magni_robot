@@ -9,6 +9,9 @@
   <xacro:arg name="raspicam_mount" default="forward"/>
   <xacro:property name="raspicam_mount" value="$(arg raspicam_mount)"/>
 
+  <xacro:property name="cameraSize" value="0.05"/>
+  <xacro:property name="cameraMass" value="0.1"/>
+
   <xacro:arg name="sonars_installed" default="true"/>
   <xacro:property name="sonars_installed" value="$(arg sonars_installed)"/>
 
@@ -25,6 +28,7 @@
   <xacro:include filename="$(find magni_description)/urdf/sensors/sonar_hc-sr04.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/sensors/raspi_camera.xacro" />
   <xacro:include filename="$(find hector_sensors_description)/urdf/hokuyo_utm30lx.urdf.xacro"/>
+  <!-- <xacro:include filename="$(find magni_description)/urdf/_d435.urdf.xacro"/> -->
 
 
   <!-- Robot base_link -->
@@ -75,6 +79,40 @@
       <origin xyz="-0.15 0 0.03" rpy="0 0 0" />
     </xacro:box_inertial_with_origin>
   </link>
+  
+  <!-- RGB camera, might use RGBD camera -->
+  <link name="camera">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${cameraSize} ${cameraSize} ${cameraSize}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${cameraSize} ${cameraSize} ${cameraSize}"/>
+        <!-- <mesh filename="package://magni_description/meshes/d435.dae" /> -->
+      </geometry>
+      <!-- <material name="green"/> -->
+    </visual>
+
+    <inertial>
+      <mass value="${cameraMass}" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <box_inertia m="${cameraMass}" x="${cameraSize}" y="${cameraSize}" z="${cameraSize}" />
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <joint name="camera_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="0 0 1.5" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="camera"/>
+  </joint>
+  <!-- RGB camera, might use RGBD camera -->
 
   <!-- Fixed offset from the floor to the center of the wheels -->
   <link name="base_footprint"/>
