@@ -2,7 +2,7 @@
     <arg name="simulation" default="true"/>
     <arg name="visualization" default="true"/> <!-- start Rviz with predefined configuration? -->
     <arg name="mapping" default="false"/> <!-- start Rviz with predefined configuration? -->
-    <arg name="navigation" default="false"/> <!-- start Rviz with predefined configuration? -->
+    <arg name="navigation" default="true"/> <!-- start Rviz with predefined configuration? -->
 
     <arg name="raspicam_mount" default="forward"/>
     <arg name="sonars_installed" default="false"/>
