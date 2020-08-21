@@ -2,7 +2,7 @@
     <arg name="simulation" default="true"/>
     <arg name="visualization" default="true"/> <!-- start Rviz with predefined configuration? -->
     <arg name="mapping" default="false"/> <!-- start Rviz with predefined configuration? -->
-    <arg name="navigation" default="true"/> <!-- start Rviz with predefined configuration? -->
+    <arg name="navigation" default="false"/> <!-- start Rviz with predefined configuration? -->
 
     <arg name="raspicam_mount" default="forward"/>
     <arg name="sonars_installed" default="false"/>
@@ -52,6 +52,13 @@
     <group if="$(arg navigation)">
         <include file="$(find magni_nav)/launch/move_base.launch"/>
         <include file="$(find magni_viz)/launch/view_nav.launch"/>
+    </group>
+    
+    <group if="$(eval arg('mapping')==False and arg('navigation')==False)">
+        <node pkg="realsense_spencer_adaptor" type="realsense_spencer_adaptor.py" name="realsense_spencer_adaptor" ns="/camera"/>
+        <node pkg="rviz" type="rviz" name="$(anon rviz)" args="-d $(find magni_viz)/rviz/spencer_detection.rviz" output="screen"/>
+        <node pkg="magni_movement_translator" type="magni_movement_publisher.py" name="magni_movement_translator"/>
+
     </group>
 
     <!-- GUI for robot control via 'cmd_vel' topic -->
