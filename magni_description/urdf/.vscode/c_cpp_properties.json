@@ -1,0 +1,62 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/home/alex-beh/ros1_ws/follow_me/devel/include/**",
+                "/home/alex-beh/ros1_ws/learn_ws/devel/include/**",
+                "/home/alex-beh/ros1_ws/catkin_ws/devel/include/**",
+                "/opt/ros/melodic/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/navigation/amcl/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/aruco_ros/aruco/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/aruco_ros/aruco_ros/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/navigation/base_local_planner/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/navigation/carrot_planner/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/navigation/clear_costmap_recovery/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/navigation/costmap_2d/include/**",
+                "/home/alex-beh/ros1_ws/catkin_ws/src/vision_opencv/cv_bridge2/include/**",
+                "/home/alex-beh/ros1_ws/learn_ws/src/darknet_ros/darknet_ros/include/**",
+                "/home/alex-beh/ros1_ws/catkin_ws/src/ddynamic_reconfigure/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/navigation/dwa_local_planner/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/navigation/global_planner/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/husky/husky_base/include/**",
+                "/home/alex-beh/ros1_ws/catkin_ws/src/vision_opencv/image_geometry/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/lama/local_map/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/local_planner/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/lama/map_ray_caster/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/navigation/map_server/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/navigation/move_base/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/navigation/move_slow_and_clear/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/navigation/nav_core/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/navigation/navfn/include/**",
+                "/home/alex-beh/ros1_ws/catkin_ws/src/obstacle_detector/include/**",
+                "/home/alex-beh/ros1_ws/catkin_ws/src/openni2_camera/openni2_camera/include/**",
+                "/home/alex-beh/ros1_ws/catkin_ws/src/realsense-ros/realsense2_camera/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/realsense_gazebo_plugin/include/**",
+                "/home/alex-beh/ros1_ws/learn_ws/src/realsense_yolo/include/**",
+                "/home/alex-beh/ros1_ws/catkin_ws/src/ros_topic_mux/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/navigation/rotate_recovery/include/**",
+                "/home/alex-beh/ros1_ws/catkin_ws/src/spencer_people_tracking/detection/monocular_detectors/rwth_ground_hog/include/**",
+                "/home/alex-beh/ros1_ws/catkin_ws/src/spencer_people_tracking/utils/rwth_ground_plane/include/**",
+                "/home/alex-beh/ros1_ws/catkin_ws/src/spencer_people_tracking/detection/rgbd_detectors/rwth_upper_body_detector/include/**",
+                "/home/alex-beh/ros1_ws/catkin_ws/src/spencer_people_tracking/utils/spencer_diagnostics/include/**",
+                "/home/alex-beh/ros1_ws/catkin_ws/src/spencer_people_tracking/detection/laser_detectors/srl_laser_detectors/include/**",
+                "/home/alex-beh/ros1_ws/catkin_ws/src/spencer_people_tracking/detection/laser_detectors/srl_laser_features/include/**",
+                "/home/alex-beh/ros1_ws/catkin_ws/src/spencer_people_tracking/detection/laser_detectors/srl_laser_segmentation/include/**",
+                "/home/alex-beh/ros1_ws/catkin_ws/src/spencer_people_tracking/tracking/people/srl_nearest_neighbor_tracker/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/ubiquity_motor/include/**",
+                "/home/alex-beh/ros1_ws/follow_me/src/navigation/voxel_grid/include/**",
+                "/usr/include/**"
+            ],
+            "name": "ROS",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/local/cuda-9.0/bin/gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++14"
+        }
+    ],
+    "version": 4
+}

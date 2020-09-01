@@ -71,7 +71,6 @@ class MagniMovementPublisherNode():
             # print("Before: ",follow_speed_z," th: ",th)
             follow_speed_z = self.constrain(follow_speed_z, self.angular_bound, -self.angular_bound)
             # print("After: ",follow_speed_z)
-
         else:
             follow_speed_z = 0.0
             # rospy.loginfo('Angular Dead Zone!')
@@ -79,9 +78,7 @@ class MagniMovementPublisherNode():
         # Pub vel cmd
         motion_cmd = Twist()
         motion_cmd.angular.z = follow_speed_z
-        # motion_cmd.angular.z = 0.0
         motion_cmd.linear.x  = follow_speed_x
-        # motion_cmd.linear.x  = 0.0
         self.magni_movement_publisher.publish(motion_cmd)
         self.previous = current_time
 

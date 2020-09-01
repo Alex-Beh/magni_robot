@@ -4,7 +4,8 @@
   <arg name="camera_extrinsics_file" default="-"/>
   <arg name="laser_enabled" default="true"/>
 
-
+  <!-- TODO: Fixthis
+  https://answers.ros.org/question/334665/xacro-property-names-not-recognised-by-roslaunch/ -->
   <param name="robot_description" 
       command="$(find xacro)/xacro --inorder
         '$(find magni_description)/urdf/magni.urdf.xacro' 

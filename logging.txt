@@ -1,0 +1,132 @@
+@@@ Need improve by changing the rotation
+<waypoint>
+  <time>0.000000</time>
+  <pose>0.000000 5.000000 0.000000 0.000000 0.000000 0</pose>
+</waypoint>
+<waypoint>
+  <time>5.000000</time>
+  <pose>5.000000 5.000000 0.000000 0.000000 0.000000 -1.570.000000</pose>
+</waypoint>
+<waypoint>
+  <time>10.000000</time>
+  <pose>5.000000 -3.000000 0.000000 0.000000 0.000000 0.000000</pose>
+</waypoint>
+<waypoint>
+  <time>18.000000</time>
+  <pose>0.000000 -3.000000 0.000000 0.000000 0.000000 0.000000</pose>
+</waypoint>
+<waypoint>
+  <time>23.000000</time>
+  <pose>0.000000 5.000000 0.000000 0.000000 0.000000 0.000000</pose>
+</waypoint>  
+  
+  @@@ Fail, two link will move together
+  <!-- root link, on the ground just below the model origin -->
+  <link name="human/base_footprint">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="human/base_link_joint" type="fixed">
+    <origin xyz="2.0 0 1.25" rpy="0 0 0" />
+    <parent link="human/base_footprint"/>
+    <child link="human/base_link" />
+  </joint>
+
+  <joint name="human/base_link_joint2" type="fixed">
+    <origin xyz="0.0 0 1.25" rpy="0 0 0" />
+    <parent link="dummy"/>
+    <child link="human/base_footprint" />
+  </joint>
+
+  <link name="dummy"></link>
+
+  <joint name="dummy_joint" type="fixed">
+    <parent link="dummy"/>
+    <child link="base_footprint"/>
+  </joint>
+
+  <link name="human/base_link">
+    <inertial>
+      <mass value="10" />
+      <origin xyz="0 0 -1.25" />
+      <inertia ixx="50.0" ixy="0.0" ixz="0.0" iyy="50.0" iyz="0.0" izz="50.0" />
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.5 0.5 1.0" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -1.0" />
+      <geometry>
+        <cylinder length="0.5" radius="0.25" />
+      </geometry>
+    </collision>
+  </link>
+
+  <gazebo>
+    <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+      <commandTopic>human/cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <odometryRate>20.0</odometryRate>
+      <robotBaseFrame>human/base_footprint</robotBaseFrame>
+    </plugin>
+  </gazebo>
+
+
+@@@Fail: actor move in a jerky motion
+<actor name="actor">
+  <pose>0 1 1.25 0 0 0</pose>
+  <skin>
+    <filename>walk.dae</filename>
+    <scale>1.0</scale>
+  </skin>
+  <animation name="walking">
+    <filename>walk.dae</filename>
+    <scale>1.000000</scale>
+    <interpolate_x>true</interpolate_x>
+  </animation>
+  <script>
+    <loop>true</loop>
+    <delay_start>0.000000</delay_start>
+    <auto_start>true</auto_start>
+    <trajectory id="0" type="running">
+      <waypoint>
+        <time>0</time>
+        <pose>0 2 0 0 0 -1.57</pose>
+      </waypoint>
+      <waypoint>
+        <time>0.5</time>
+        <pose>0 -2 0 0 0 -1.57</pose>
+      </waypoint>
+      <waypoint>
+        <time>1</time>
+        <pose>0 -2 0 0 0 1.57</pose>
+      </waypoint>
+      <waypoint>
+        <time>1.5</time>
+        <pose>0 2 0 0 0 1.57</pose>
+      </waypoint>
+      <waypoint>
+        <time>2</time>
+        <pose>0 2 0 0 0 -1.57</pose>
+      </waypoint>
+    </trajectory>
+  </script>
+  <plugin name="actor_plugin" filename="libActorPlugin.so">
+    <target>0 -5 1.2138</target>
+    <target_weight>1.15</target_weight>
+    <obstacle_weight>1.8</obstacle_weight>
+    <animation_factor>5.1</animation_factor>
+    <ignore_obstacles>
+      <model>cafe</model>
+      <model>ground_plane</model>
+    </ignore_obstacles>
+  </plugin>
+</actor>

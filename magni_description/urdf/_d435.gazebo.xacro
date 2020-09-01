@@ -37,7 +37,7 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
           </image>
           <clip>
             <near>0.1</near>
-            <far>100</far>
+            <far>1000</far>
           </clip>
           <noise>
             <type>gaussian</type>
@@ -59,7 +59,7 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
           </image>
           <clip>
             <near>0.1</near>
-            <far>100</far>
+            <far>1000</far>
           </clip>
           <noise>
             <type>gaussian</type>
@@ -81,7 +81,7 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
           </image>
           <clip>
             <near>0.1</near>
-            <far>100</far>
+            <far>1000</far>
           </clip>
           <noise>
             <type>gaussian</type>
@@ -102,7 +102,7 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
           </image>
           <clip>
             <near>0.1</near>
-            <far>100</far>
+            <far>1000</far>
           </clip>
           <noise>
             <type>gaussian</type>

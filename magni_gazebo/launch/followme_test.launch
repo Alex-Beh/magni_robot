@@ -17,7 +17,7 @@
 
     <include file="$(find gazebo_ros)/launch/empty_world.launch" if="$(arg simulation)">
         <arg name="gui" value="$(arg gui)" />
-        <arg name="world_name" value="$(find husky_gazebo)/worlds/clearpath_playpen.world"/>
+        <arg name="world_name" value="$(find magni_gazebo)/worlds/follow_me2.world"/>
         <arg name="headless" value="$(arg headless)" />
         <arg name="paused" value="$(arg paused)" />
         <arg name="debug" value="$(arg debug)" />
@@ -32,7 +32,6 @@
     </include>
 
     <!-- Additional nodes (optional)  -->
-    <!-- <include file="$(find urg_node)/launch/urg_lidar.launch"/> -->
     <!-- <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop">
         <remap from="cmd_vel" to="ubiquity_velocity_controller/cmd_vel"/>
     </node> -->
@@ -46,8 +45,6 @@
         <include file="$(find magni_viz)/launch/view_mapping.launch"/>
     </group>
     
-    <!-- <include file="$(find magni_viz)/launch/view_mapping.launch"/> -->
-
     <!-- navigation -->
     <group if="$(arg navigation)">
         <include file="$(find magni_nav)/launch/move_base.launch"/>
@@ -57,7 +54,11 @@
     <group if="$(eval arg('mapping')==False and arg('navigation')==False)">
         <node pkg="realsense_spencer_adaptor" type="realsense_spencer_adaptor.py" name="realsense_spencer_adaptor" ns="/camera"/>
         <node pkg="rviz" type="rviz" name="$(anon rviz)" args="-d $(find magni_viz)/rviz/spencer_detection.rviz" output="screen"/>
-        <node pkg="magni_movement_translator" type="magni_movement_publisher.py" name="magni_movement_translator"/>
+        <!-- <node pkg="magni_movement_translator" type="magni_movement_publisher.py" name="magni_movement_translator"/> -->
+
+        <!-- Run the map server --> 
+        <!-- <node name="map_server" pkg="map_server" type="map_server" args="$(find magni_nav)/maps/mymap.yaml"/>
+        <node pkg="tf" type="static_transform_publisher" name="odom2map_tf" args="0 0 0 0 0 0 map odom 100"/> -->
 
     </group>
 
@@ -67,7 +68,7 @@
         <param name="default_vx_max" type="double" value="0.8" />
         <param name="default_vx_min" type="double" value="-0.8" />
         <param name="default_vw_max" type="double" value="1.5" />
-        <param name="default_vw_min" type="double" value="-1.5" />
-    </node> -->
+        <param name="default_vw_min" type="double" value="-1.5" /> -->
+    <!-- </node> -->
 
 </launch>
