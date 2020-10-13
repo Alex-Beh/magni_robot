@@ -11,13 +11,13 @@
     <!-- load empty world -->
     <arg name="gui" default="true"/>
     <arg name="headless" default="false" />
-    <arg name="debug" default="false" />
+    <arg name="debug" default="true" />
     <arg name="paused" default="false"/>
     <arg name="use_sim_time" default="true"/>
 
     <include file="$(find gazebo_ros)/launch/empty_world.launch" if="$(arg simulation)">
         <arg name="gui" value="$(arg gui)" />
-        <arg name="world_name" value="$(find magni_gazebo)/worlds/follow_me2.world"/>
+        <arg name="world_name" value="$(find magni_gazebo)/worlds/clearpath_playpen.world"/>
         <arg name="headless" value="$(arg headless)" />
         <arg name="paused" value="$(arg paused)" />
         <arg name="debug" value="$(arg debug)" />
@@ -30,7 +30,14 @@
         <arg name="sonars_installed" value="$(arg sonars_installed)"/>
         <arg name="laser_enabled" value="$(arg laser_enabled)" />
     </include>
-
+    <!-- start 2nd robot-->
+    <group ns="magni1">
+     <include file="$(find magni_gazebo)/launch/magni2.launch">
+        <arg name="raspicam_mount" value="$(arg raspicam_mount)"/>
+        <arg name="sonars_installed" value="$(arg sonars_installed)"/>
+        <arg name="laser_enabled" value="$(arg laser_enabled)" />
+    </include>
+    </group>
     <!-- Additional nodes (optional)  -->
     <!-- <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop">
         <remap from="cmd_vel" to="ubiquity_velocity_controller/cmd_vel"/>

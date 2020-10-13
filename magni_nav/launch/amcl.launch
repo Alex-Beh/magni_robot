@@ -5,7 +5,8 @@
   <arg name="initial_pose_y" default="0.0"/>
   <arg name="initial_pose_a" default="0.0"/>
   <arg name="use_map_topic" default="true"/>
-
+  <!-- Run the map server --> 
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find magni_nav)/maps/mymap.yaml"/>
   <!-- AMCL -->
  <node pkg="amcl" type="amcl" name="amcl">
     <param name="use_map_topic" value="$(arg use_map_topic)"/>
