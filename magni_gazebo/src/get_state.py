@@ -9,7 +9,7 @@ import math
 model_name = 'magni1'
 relative_entity_name = 'magni'
 keep_distance = 1.0
-
+tolerance = 0.2
 def gms_client(model_name,relative_entity_name):
     rospy.wait_for_service('/gazebo/get_model_state')
     try:
@@ -18,10 +18,20 @@ def gms_client(model_name,relative_entity_name):
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
 
+def goal_processor(x,y,keep_distance):
+    r = math.sqrt(x*x+y*y)
+    if(r>keep_distance+tolerance):
+        print("larger than r: {} {} --> {}".format(x,y,r))
+        x_goal = x - (x/math.sqrt(x*x+y*y)*keep_distance)
+        y_goal = y - (y/math.sqrt(x*x+y*y)*keep_distance)
+        return x_goal,y_goal
+    else:
+        print("Small than r: {} {}".format(x,y))
+        return 0,0
 
 if __name__ == "__main__":
     rospy.init_node('listener', anonymous=True)
-    pub = rospy.Publisher('/goal/position', PoseStamped, queue_size=1)
+    pub = rospy.Publisher('/target_point', PoseStamped, queue_size=1)
     res = gms_client(model_name,relative_entity_name)
     msg = PoseStamped()
     msg.header.frame_id = "base_link"
@@ -31,19 +41,12 @@ if __name__ == "__main__":
             msg.header.stamp = rospy.Time.now()
             x = g.pose.position.x
             y = g.pose.position.y
-            print ("return x ",x,y)
-            # if (math.sqrt(x**2+y**2)-keep_distance>0):
-            #     x_goal = x/math.sqrt(x**2+y**2)*keep_distance
-            #     y_goal = y/math.sqrt(x**2+y**2)*keep_distance
-                # msg.pose.position.x = x-x_goal
-                # msg.pose.position.y = y-y_goal
-            # else :
-            #     msg.pose.position.x = 0
-            #     msg.pose.position.y = 0
+            x,y=goal_processor(x,y,keep_distance)
             msg.pose.position.x = x
             msg.pose.position.y = y
+            print("{} {}\n".format(msg.pose.position.x,msg.pose.position.y))
+
             pub.publish(msg)
             rospy.sleep(0.05)
-            print ("return x position ",msg.pose.position.x,msg.pose.position.y)
     except KeyboardInterrupt:
         print('interrupted!')

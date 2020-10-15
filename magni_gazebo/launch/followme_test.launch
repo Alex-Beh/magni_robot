@@ -11,7 +11,7 @@
     <!-- load empty world -->
     <arg name="gui" default="true"/>
     <arg name="headless" default="false" />
-    <arg name="debug" default="true" />
+    <arg name="debug" default="false" />
     <arg name="paused" default="false"/>
     <arg name="use_sim_time" default="true"/>
 
@@ -30,6 +30,7 @@
         <arg name="sonars_installed" value="$(arg sonars_installed)"/>
         <arg name="laser_enabled" value="$(arg laser_enabled)" />
     </include>
+    
     <!-- start 2nd robot-->
     <group ns="magni1">
      <include file="$(find magni_gazebo)/launch/magni2.launch">
@@ -38,44 +39,10 @@
         <arg name="laser_enabled" value="$(arg laser_enabled)" />
     </include>
     </group>
-    <!-- Additional nodes (optional)  -->
-    <!-- <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop">
-        <remap from="cmd_vel" to="ubiquity_velocity_controller/cmd_vel"/>
-    </node> -->
-
-    <!-- mapping -->
-    <group if="$(arg mapping)">
-        <node pkg="gmapping" type="slam_gmapping" name="gmapping">
-            <remap from="scan" to="scan"/>
-        </node>
-
-        <include file="$(find magni_viz)/launch/view_mapping.launch"/>
-    </group>
-    
-    <!-- navigation -->
-    <group if="$(arg navigation)">
-        <include file="$(find magni_nav)/launch/move_base.launch"/>
-        <include file="$(find magni_viz)/launch/view_nav.launch"/>
-    </group>
     
     <group if="$(eval arg('mapping')==False and arg('navigation')==False)">
         <node pkg="realsense_spencer_adaptor" type="realsense_spencer_adaptor.py" name="realsense_spencer_adaptor" ns="/camera"/>
         <node pkg="rviz" type="rviz" name="$(anon rviz)" args="-d $(find magni_viz)/rviz/spencer_detection.rviz" output="screen"/>
-        <!-- <node pkg="magni_movement_translator" type="magni_movement_publisher.py" name="magni_movement_translator"/> -->
-
-        <!-- Run the map server --> 
-        <!-- <node name="map_server" pkg="map_server" type="map_server" args="$(find magni_nav)/maps/mymap.yaml"/>
-        <node pkg="tf" type="static_transform_publisher" name="odom2map_tf" args="0 0 0 0 0 0 map odom 100"/> -->
-
     </group>
-
-    <!-- GUI for robot control via 'cmd_vel' topic -->
-    <!-- <node pkg="rqt_robot_steering" type="rqt_robot_steering" name="magni_rqt_teleop">
-        <param name="default_topic" type="str" value="/ubiquity_velocity_controller/cmd_vel"/>
-        <param name="default_vx_max" type="double" value="0.8" />
-        <param name="default_vx_min" type="double" value="-0.8" />
-        <param name="default_vw_max" type="double" value="1.5" />
-        <param name="default_vw_min" type="double" value="-1.5" /> -->
-    <!-- </node> -->
 
 </launch>
