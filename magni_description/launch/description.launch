@@ -8,7 +8,7 @@
   https://answers.ros.org/question/334665/xacro-property-names-not-recognised-by-roslaunch/ -->
   <param name="robot_description" 
       command="$(find xacro)/xacro --inorder
-        '$(find magni_description)/urdf/magni.urdf.xacro' 
+        '$(find magni_description)/urdf/magni1.urdf.xacro' 
         raspicam_mount:=$(arg raspicam_mount)
         sonars_installed:=$(arg sonars_installed)
         laser_enabled:=$(arg laser_enabled)
