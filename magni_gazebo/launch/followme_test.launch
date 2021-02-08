@@ -18,6 +18,7 @@
     <include file="$(find gazebo_ros)/launch/empty_world.launch" if="$(arg simulation)">
         <arg name="gui" value="$(arg gui)" />
         <arg name="world_name" value="$(find magni_gazebo)/worlds/clearpath_playpen.world"/>
+        <!-- <arg name="world_name" value="$(find aws_robomaker_hospital_world)/worlds/hospital.world"/> -->
         <arg name="headless" value="$(arg headless)" />
         <arg name="paused" value="$(arg paused)" />
         <arg name="debug" value="$(arg debug)" />
@@ -39,10 +40,13 @@
         <arg name="laser_enabled" value="$(arg laser_enabled)" />
     </include>
     </group>
-    
-    <group if="$(eval arg('mapping')==False and arg('navigation')==False)">
+    <node pkg="rviz" type="rviz" name="$(anon rviz)" args="-d $(find magni_viz)/rviz/spencer_detection.rviz" output="screen"/>
+    <!-- <group if="$(eval arg('mapping')==False and arg('navigation')==False)">
         <node pkg="realsense_spencer_adaptor" type="realsense_spencer_adaptor.py" name="realsense_spencer_adaptor" ns="/camera"/>
-        <node pkg="rviz" type="rviz" name="$(anon rviz)" args="-d $(find magni_viz)/rviz/spencer_detection.rviz" output="screen"/>
-    </group>
-
+        
+    </group> -->
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain"
+    name="laser_filter">
+    <rosparam command="load" file="$(find dwa_plan)/launch/scan_filtered.yaml" />
+    </node>
 </launch>

@@ -3,7 +3,7 @@
 
     <arg name="raspicam_mount" default="forward"/>
     <arg name="sonars_installed" default="true"/>
-    <arg name="laser_enabled" default="true"/>
+    <arg name="laser_enabled" default="false"/>
 
     <arg name="location_x" default="0"/>
     <arg name="location_y" default="0"/>
