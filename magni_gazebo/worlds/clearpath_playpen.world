@@ -26,7 +26,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 <sdf version='1.4'>
   <world name='default'>
 
-    <actor name="actor">
+    <!-- <actor name="actor">
       <skin>
         <filename>walk.dae</filename>
         <scale>1.1</scale>
@@ -171,10 +171,9 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
             <time>18.000000</time>
             <pose>-0.5852700000000001 2.942355 0.000000 0.000000 0.000000 0.196345</pose>
           </waypoint>
-
         </trajectory>
       </script>
-    </actor>
+    </actor> -->
 
     <light name='sun' type='directional'>
       <cast_shadows>1</cast_shadows>

@@ -5,16 +5,19 @@
     <arg name="sonars_installed" default="true"/>
     <arg name="laser_enabled" default="true"/>
 
-    <arg name="location_x" default="5"/>
+    <arg name="location_x" default="0"/>
     <arg name="location_y" default="0"/>
+    <arg name="init_pose" value="-x $(arg location_x) -y $(arg location_y) -z 0" />
 
-    <include file="$(find magni_description)/launch/description.launch">
+    <arg name="robot_model" default="magni" />
+
+    <include file="$(find magni_description)/launch/description_with_RGBD.launch">
         <arg name="raspicam_mount" value="$(arg raspicam_mount)" />
         <arg name="sonars_installed" value="$(arg sonars_installed)" />
         <arg name="laser_enabled" value="$(arg laser_enabled)" />
     </include>>
 
-    <node name="magni_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model magni" />
+    <node name="magni_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="$(arg init_pose) -urdf -param robot_description -model $(arg robot_model)" />
 
    <!-- Load the parameters used by the following nodes -->
     <rosparam file="$(find magni_gazebo)/config/magni_controllers.yaml" command="load"/>

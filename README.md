@@ -1,4 +1,12 @@
+# Magni Robot
+## Installation
+1. Clone this repository into your workspace
+2. catkin_make
 
+## Running
+1. roslaunch magni_gazebo followme_test.launch 
+
+---------------------------------------
 # Overview
 
 This package contains launch files and configuration files for the Magni robot.
