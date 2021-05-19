@@ -1,74 +1,28 @@
 # Magni Robot
 ## Installation
 1. Clone this repository into your workspace
-2. catkin_make
+2. Clone [velodyne_description](http://wiki.ros.org/velodyne_description) if you want to use 3D Velodyne laser scanners
+3. Clone [realsense_gazebo_plugin](https://github.com/pal-robotics/realsense_gazebo_plugin) if you want to use realsense D435
+4. catkin_make
 
-## Running
+## How to run
 1. roslaunch magni_gazebo followme_test.launch 
 
----------------------------------------
-# Overview
+## Actively Using packages:
+- magni_gazebo
+- magni_teleop
+- magni_description
+- magni_teleop
 
-This package contains launch files and configuration files for the Magni robot.
+<p align="center">
+  <img src="./images/gazebo.png">
+  Gazebo interface
+</p>
 
-## Launch files
+<p align="center">
+  <img src="./images/rviz.png">
+  RVIZ interface
+</p>
 
-### magni_demos fiducial_follow.launch
-
-Runs everything for the fiducial follow demo. 
-
-### magni_demos simple_navigation.launch
-
-Runs a simple fiducial based navigation demo using fiducials and move_basic. The robot is controllable using Robot Commander.
-
-### magni_nav aruco.launch
-
-This launch file runs the fiducial marker based localization system using Raspberry Pi camera, configured to run on Magni.
-For more information, see [fiducials](http://wiki.ros.org/fiducials) and
-[raspicam_node](https://github.com/UbiquityRobotics/raspicam_node)
-
-### magni_nav move_basic.launch
-
-This launch file runs the [move_basic](https://github.com/UbiquityRobotics/move_basic) simple navigation system with the parameters needed for Magni.
-
-### magni_viz view_nav.launch
-
-To be run on a workstation, not the pi. This brings up rviz in a way suitable to visualize fiducial based navigation. 
-
-### magni_viz view_robot.launch
-
-To be run on a workstation, not the pi. This brings up rviz in a way suitable to visualize just the state of the robot and sensors, without a navigation stack.
-
-## Internal
-
-### magni_bringup core.launch
-This brings up the essential nodes for communicating with the motor node. After launch, teleop_twist_keyboard should work.
-
-You should not have to run this launch file directly.
-
-### magni_bringup base.launch
-
-Runs everything needed for teleop, including Robot Commander based teleop (no navigation). Runs on robot boot. 
-
-### magni_description description.launch
-Internal launch file for making the URDF load and robot_state_publisher work.
-
-You should not have to run this launch file directly.
-
-## Deprecated
-
-### magni_demos teleop.launch
-
-Deprecated, now aliased to magni_bringup base.launch
-
-### magni_demos joystick.launch
-
-Deprecated, now aliased to magni_bringup base.launch
-
-## Software that enables core hardware functionality on Magni:
-
-    https://github.com/UbiquityRobotics/ubiquity_motor     - Makes the Motors work; Package; no UI; no documentation
-
-    https://github.com/UbiquityRobotics/raspicam_node      - Makes the Cameras work; Package; Calibration UI (documented)--is this exposed to User? 
-
-    Motor controller firmware -- not to be released.
+## Notes:
+1. You can check the full original README [here](https://github.com/UbiquityRobotics/magni_robot).
