@@ -6,7 +6,9 @@
 
     <arg name="raspicam_mount" default="forward"/>
     <arg name="sonars_installed" default="false"/>
-    <arg name="laser_enabled" default="true"/>
+    <arg name="hokuyo_laser_enabled" default="true"/>
+    <arg name="realsense_camera_enabled" default="true"/>
+    <arg name="velodyne_laser_enabled" default="true"/>
 
     <!-- load empty world -->
     <arg name="gui" default="true"/>
@@ -28,27 +30,29 @@
     <include file="$(find magni_gazebo)/launch/magni.launch">
         <arg name="raspicam_mount" value="$(arg raspicam_mount)"/>
         <arg name="sonars_installed" value="$(arg sonars_installed)"/>
-        <arg name="laser_enabled" value="$(arg laser_enabled)" />
+        <arg name="hokuyo_laser_enabled" value="$(arg hokuyo_laser_enabled)" />
+        <arg name="realsense_camera_enabled" value="$(arg realsense_camera_enabled)" />
+        <arg name="velodyne_laser_enabled" value="$(arg velodyne_laser_enabled)" />
         <arg name="robot_model" value="magni" />
         <arg name="location_x" value="5" />
         <arg name="location_y" value="0" />
     </include>
     
     <!-- start 2nd robot-->
-    <group ns="magni1">
+    <!-- <group ns="magni1">
         <include file="$(find magni_gazebo)/launch/magni.launch">
             <arg name="raspicam_mount" value="$(arg raspicam_mount)"/>
             <arg name="sonars_installed" value="$(arg sonars_installed)"/>
-            <arg name="laser_enabled" value="$(arg laser_enabled)" />
+            <arg name="hokuyo_laser_enabled" value="$(arg hokuyo_laser_enabled)" />
             <arg name="robot_model" value="magni1" />
             <arg name="location_x" value="0" />
             <arg name="location_y" value="0" />
         </include>
-    </group>
+    </group> -->
 
     <node pkg="rviz" type="rviz" name="$(anon rviz)" args="-d $(find magni_viz)/rviz/followme.rviz" output="screen"/>
 
-    <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+    <!-- <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
         <rosparam command="load" file="$(find dwa_plan)/launch/scan_filtered.yaml" />
-    </node>
+    </node> -->
 </launch>

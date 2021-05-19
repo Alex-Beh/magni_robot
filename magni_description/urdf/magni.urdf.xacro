@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro" name="magni">
 
-  <xacro:arg name="laser_enabled" default="true" />
-  <xacro:property name="laser_enabled" value="$(arg laser_enabled)"/>
+  <xacro:arg name="hokuyo_laser_enabled" default="true" />
+  <xacro:property name="hokuyo_laser_enabled" value="$(arg hokuyo_laser_enabled)"/>
   <xacro:property name="laser_xyz" default="0.2206 0.0 0.00635" />
   <xacro:property name="laser_rpy" default="0.0 0.0 0.0)" />
 
@@ -21,6 +21,14 @@
   <xacro:property name="wheel_r" value="0.1" />
   <xacro:property name="wheel_xpos" value="0.11" />
 
+  <xacro:arg name="realsense_camera_enabled" default="false" />
+  <xacro:property name="realsense_camera_enabled" value="$(arg realsense_camera_enabled)"/>
+
+  <xacro:arg name="velodyne_laser_enabled" default="false" />
+  <xacro:property name="velodyne_laser_enabled" value="$(arg velodyne_laser_enabled)"/>
+
+  <xacro:arg name="gpu" default="true"/>
+  <xacro:property name="gpu" value="$(arg gpu)" />
 
   <xacro:include filename="$(find magni_description)/urdf/magni.transmission.xacro" />
   <xacro:include filename="$(find magni_description)/urdf/magni.gazebo.xacro" />
@@ -30,20 +38,27 @@
   <xacro:include filename="$(find magni_description)/urdf/hokuyo_utm30lx.urdf.xacro"/>
   <xacro:include filename="$(find magni_description)/urdf/_d435.urdf.xacro"/>
 
-  <link name="rod_camera2base">
-    <visual>
-      <origin xyz="0 0 0.25" rpy="0 0 0" />
-      <geometry>
-        <cylinder radius="0.013" length="1.2"/>
-      </geometry>
-    </visual>
-  </link>
+  <xacro:if value="${realsense_camera_enabled}">
+    <link name="rod_camera2base">
+      <visual>
+        <origin xyz="0 0 0.25" rpy="0 0 0" />
+        <geometry>
+          <cylinder radius="0.013" length="1.2"/>
+        </geometry>
+      </visual>
+    </link>
+    <!-- realsense camera -->
+    <xacro:include filename="$(find magni_description)/urdf/_d435.urdf.xacro" />
+    <xacro:sensor_d435 parent="base_link">
+      <origin xyz="-0.2256 0 1.3" rpy="0 0 0"/>
+    </xacro:sensor_d435>
 
-  <joint name="rod_camera2base_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="rod_camera2base"/>
-    <origin xyz="-0.05 0 0.512" rpy="0 0 0"/>
-  </joint>
+    <joint name="rod_camera2base_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="rod_camera2base"/>
+      <origin xyz="-0.25 0 0.512" rpy="0 0 0"/>
+    </joint>
+  </xacro:if>
 
   <!-- Robot base_link -->
   <link name="base_link">
@@ -94,11 +109,6 @@
     </xacro:box_inertial_with_origin>
   </link>
 
-  <!-- realsense camera -->
-  <xacro:include filename="$(find magni_description)/urdf/_d435.urdf.xacro" />
-  <xacro:sensor_d435 parent="base_link">
-    <origin xyz="-0.0256 0 1.3" rpy="0 0 0"/>
-  </xacro:sensor_d435>
 
 
   <!-- Fixed offset from the floor to the center of the wheels -->
@@ -187,7 +197,7 @@
     </xacro:sonar_hc-sr04>
   </xacro:if>
 
-  <xacro:if value="${laser_enabled}">
+  <xacro:if value="${hokuyo_laser_enabled}">
     <xacro:hokuyo_utm30lx name="hokuyo_laser" parent="base_link" ros_topic="scan" update_rate="10" ray_count="361" min_angle="-180" max_angle="180">
       <origin xyz="0 0 +0.25" rpy="0 0 0" />
     </xacro:hokuyo_utm30lx>
@@ -232,4 +242,11 @@
     </xacro:if>
   </xacro:if>
 
+  <xacro:if value="${velodyne_laser_enabled}">
+    <!-- VLP-16 -->
+    <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+    <xacro:VLP-16 parent="base_link" name="velodyne" topic="/velodyne_points" organize_cloud="false" hz="10" samples="440" gpu="${gpu}">
+      <origin xyz="-0.1 0 0.4" rpy="0 0 0" />
+    </xacro:VLP-16>
+  </xacro:if> 
 </robot>
