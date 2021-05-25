@@ -3,16 +3,20 @@
   <arg name="sonars_installed" default="true"/>
   <arg name="camera_extrinsics_file" default="-"/>
   <arg name="laser_enabled" default="true"/>
+  <arg name="tf_prefix" default=""/>
+
 
   <!-- TODO: Fixthis
   https://answers.ros.org/question/334665/xacro-property-names-not-recognised-by-roslaunch/ -->
-  <param name="robot_description" 
+  <param name="$(arg tf_prefix)robot_description" 
       command="$(find xacro)/xacro --inorder
         '$(find magni_description)/urdf/magni.urdf.xacro' 
         raspicam_mount:=$(arg raspicam_mount)
         sonars_installed:=$(arg sonars_installed)
         laser_enabled:=$(arg laser_enabled)
-        camera_extrinsics_file:=$(arg camera_extrinsics_file)"
+        camera_extrinsics_file:=$(arg camera_extrinsics_file)
+        tf_prefix:=$(arg tf_prefix)"
   />
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+  <node name="robot_state_publisher" ns="$(arg tf_prefix)" pkg="robot_state_publisher" type="robot_state_publisher" />
+
 </launch>

@@ -21,8 +21,8 @@ def gms_client(model_name,relative_entity_name):
     try:
         gms = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
         return gms
-    except rospy.ServiceException, e:
-        print "Service call failed: %s"%e
+    except rospy.ServiceException as e:
+        print("Service call failed: %s"%e)
 
 def goal_processor(x,y,keep_distance,tolerance):
     r = math.sqrt(x*x+y*y)

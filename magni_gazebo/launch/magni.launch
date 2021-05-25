@@ -10,26 +10,34 @@
     <arg name="init_pose" value="-x $(arg location_x) -y $(arg location_y) -z 0" />
 
     <arg name="robot_model" default="magni" />
+    <arg name="tf_prefix" default="" />
+    <arg name="node_start_delay" default="0" />
+
 
     <include file="$(find magni_description)/launch/description_with_RGBD.launch">
         <arg name="raspicam_mount" value="$(arg raspicam_mount)" />
         <arg name="sonars_installed" value="$(arg sonars_installed)" />
         <arg name="laser_enabled" value="$(arg laser_enabled)" />
+        <arg name="tf_prefix" value="$(arg tf_prefix)" />
     </include>>
 
-    <node name="magni_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="$(arg init_pose) -urdf -param robot_description -model $(arg robot_model)" />
+    <node name="magni_spawn" ns="$(arg tf_prefix)" pkg="gazebo_ros" type="spawn_model" output="screen" args="$(arg init_pose) -urdf -param robot_description -model $(arg robot_model)"/>
 
-   <!-- Load the parameters used by the following nodes -->
+<!-- 
+
     <rosparam file="$(find magni_gazebo)/config/magni_controllers.yaml" command="load"/>
-    <!-- Launch the roscontrol controllers needed -->
-    <node name="controller_spawner" pkg="controller_manager" type="spawner" args="ubiquity_velocity_controller ubiquity_joint_publisher"/>
+    <param name="/ubiquity_velocity_controller/left_wheel" value="$(arg tf_prefix)left_wheel_joint"/>
+    <param name="/ubiquity_velocity_controller/right_wheel" value="$(arg tf_prefix)right_wheel_joint"/>
+    <param name="/ubiquity_velocity_controller/base_frame_id" value="$(arg tf_prefix)base_footprint"/>
+    <param name="/ubiquity_velocity_controller/odom_frame_id" value="$(arg tf_prefix)odom"/>
 
-    <!-- Topic redirection for compatibility with real robot configuration (core.launch) -->
-    <!-- 'topic_tools relay' is used to redirect topics, because remap doesn't work in Gazebo. -->
-    <node name="cmd_vel_relay" type="relay" pkg="topic_tools" args="/cmd_vel /ubiquity_velocity_controller/cmd_vel" />
-    <node name="odom_relay" type="relay" pkg="topic_tools" args="/ubiquity_velocity_controller/odom /odom" />
 
-    <!-- <node name="sonar0_relay" type="relay" pkg="topic_tools" args="/pi_sonar/sonar_0 /sonars" />
+    <node name="controller_spawner" ns="$(arg tf_prefix)" pkg="controller_manager" type="spawner" args="ubiquity_velocity_controller ubiquity_joint_publisher">
+    </node>
+
+    <node name="cmd_vel_relay" ns="$(arg tf_prefix)" type="relay" pkg="topic_tools" args="/cmd_vel /ubiquity_velocity_controller/cmd_vel" />
+    <node name="odom_relay" ns="$(arg tf_prefix)" type="relay" pkg="topic_tools" args="/ubiquity_velocity_controller/odom /odom" /> 
+
     <node name="sonar1_relay" type="relay" pkg="topic_tools" args="/pi_sonar/sonar_1 /sonars" />
     <node name="sonar2_relay" type="relay" pkg="topic_tools" args="/pi_sonar/sonar_2 /sonars" />
     <node name="sonar3_relay" type="relay" pkg="topic_tools" args="/pi_sonar/sonar_3 /sonars" />
