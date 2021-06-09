@@ -54,8 +54,10 @@ if __name__ == "__main__":
     res = gms_client(model_name,relative_entity_name)
     msg = PoseStamped()
     msg.header.frame_id = "magni_1/base_link"
+
+    count = 0
     try:
-        while True:
+        while count < 5:
             g = res(model_name,relative_entity_name)
             msg.header.stamp = rospy.Time.now()
             x = g.pose.position.x
@@ -75,5 +77,6 @@ if __name__ == "__main__":
 
             pub.publish(msg)
             rospy.sleep(0.05)
+            count = count +1
     except KeyboardInterrupt:
         print('interrupted!')
