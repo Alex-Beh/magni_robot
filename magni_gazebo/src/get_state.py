@@ -47,13 +47,13 @@ if __name__ == "__main__":
     br = tf2_ros.TransformBroadcaster()
     t = TransformStamped()
     
-    t.header.frame_id = "base_link"
+    t.header.frame_id = "magni_1/base_link"
     t.child_frame_id = "human"
     pub1 = rospy.Publisher('/leg_pose', PoseStamped, queue_size=1)
     pub = rospy.Publisher('/global_goal', PoseStamped, queue_size=1)
     res = gms_client(model_name,relative_entity_name)
     msg = PoseStamped()
-    msg.header.frame_id = "base_link"
+    msg.header.frame_id = "magni_1/base_link"
     try:
         while True:
             g = res(model_name,relative_entity_name)

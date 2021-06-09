@@ -34,7 +34,7 @@
 
     </node>
 
-    <node name="cmd_vel_relay" ns="$(arg tf_prefix)" type="relay" pkg="topic_tools" args="/cmd_vel /ubiquity_velocity_controller/cmd_vel" />
+    <node name="cmd_vel_relay" ns="$(arg tf_prefix)" type="relay" pkg="topic_tools" args="/cmd_vel /magni_1/ubiquity_velocity_controller/cmd_vel" />
     <node name="odom_relay" ns="$(arg tf_prefix)" type="relay" pkg="topic_tools" args="/ubiquity_velocity_controller/odom /odom" /> 
 <!-- 
     <node name="sonar1_relay" ns="$(arg tf_prefix)"  type="relay" pkg="topic_tools" args="/pi_sonar/sonar_1 /sonars" />
