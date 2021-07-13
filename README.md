@@ -6,7 +6,30 @@
 4. catkin_make
 
 ## How to run
-1. roslaunch magni_gazebo followme_test.launch 
+1. Run the following command to start up RVIZ and Gazebo with the magni robot
+
+```
+roslaunch magni_gazebo followme_test.launch
+```
+
+2. Run the twist keyboard to move the magni robot using keystrokes
+
+```
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/ubiquity_velocity_controller/cmd_vel
+```
+
+3. To run magni robot on autonomous navigation instead, run the magni navigation node
+
+```
+roslaunch magni_nav move_base.launch
+```
+
+4. Once the `move_base.launch` launch file is executed, configure RVIZ as follows:
+
+    1. At the left-hand side window, ensure that Global Options > Fixed Frame is set to `map`
+    2. From the file menu bar, navigate to Panels > Tool Properties and change `2D nav goal` topic to `/move_base_simple/goal`
+    3. Set the initial position of the magni robot using 2D pose estimation
+    4. Set the destination position of the magni robot using 2D nav goal
 
 ## Actively Using packages:
 - magni_gazebo
